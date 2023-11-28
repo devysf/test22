@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yte-demo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: yte-demo-app
+  template:
+    metadata:
+      labels:
+        app: yte-demo-app
+    spec:
+      containers:
+        - name: yte-demo-app
+          image: didak-quay.apps.quay.tbtk.gov.tr/image-stream/initialzr:latest
+          ports:
+            - name: http
+              containerPort: 8081
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: yte-demo-app-svc
+spec:
+  ports:
+    - port: 8081
+      targetPort: 8081
+  selector:
+    app: yte-demo-app

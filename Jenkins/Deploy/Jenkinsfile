@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+    options {
+
+    }
+	stages {
+	    stage('Checkout code') {
+			steps {
+				checkout scm
+			}
+        }
+        stage('Build') {
+	        tools {
+                jdk 17
+                maven "LOCALMAVEN"
+            }
+            steps {
+                sh 'mvn clean spring-cloud-contract:convert spring-cloud-contract:generateStubs deploy -DskipTests=true'
+            }
+        }        
+    }
+    post {
+        always {
+
+        }
+    }
+}

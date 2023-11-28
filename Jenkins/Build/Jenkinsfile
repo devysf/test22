@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+    options {
+
+    }
+	stages {
+	    stage('Checkout code') {
+			steps {
+				checkout scm
+			}
+        }
+        stage('Build') {
+	        tools {
+                jdk 17
+                maven "LOCALMAVEN"
+            }
+            steps {
+                echo 'Building..'
+                sh 'mvn clean'
+                sh 'mvn process-resources'
+                
+                sh 'mvn test  '
+            }
+        }
+    }
+    post { 
+        always {
+
+        }
+    }
+}

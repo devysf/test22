@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+    environment {
+
+    }
+	stages {
+
+	    stage('Checkout code') {
+			steps {
+				checkout scm
+			}
+        }
+
+        stage('Package') {
+            tools {
+                jdk 17
+                maven "LOCALMAVEN"
+            }
+            steps {
+                echo 'Packaging..'
+                sh 'mvn -X clean install -U spring-boot:repackage -DskipTests'
+            }
+        }
+
+
+        stage('Build') {
+	        tools {
+                jdk 17
+                maven "LOCALMAVEN"
+            }
+            steps {
+                echo 'Building..'
+                sh'''
+                cp -r /directoryWherePinpointIsLocated/pinpoint-agent pinpoint-agent
+				docker build -t containerRegistryAddress/directoryName:version .
+				docker login -u username -p password containerRegistryAddress
+				docker push containerRegistryAddress/directoryName:version
+				'''
+            }
+        }
+
+
+    }
+    post {
+		always {
+
+        }
+        success {
+  		    archiveArtifacts artifacts: 'target/*.sql', onlyIfSuccessful: true
+        }
+		failure {
+
+		}
+    }
+}

@@ -1,0 +1,85 @@
+schemaVersion: 2.2.0
+metadata:
+  name: java-maven
+  displayName: Maven Java
+  description: Java application based on Maven 3.6 and OpenJDK 17
+  icon: https://raw.githubusercontent.com/devfile-samples/devfile-stack-icons/main/java-maven.jpg
+  tags:
+    - Java
+    - Maven
+  projectType: Maven
+  language: Java
+  version: 1.2.0
+components:
+  - name: app
+    container:
+      image: registry.access.redhat.com/ubi8/openjdk-17
+      command: ["tail", "-f", "/dev/null"]
+      memoryLimit: 512Mi
+      mountSources: true
+      endpoints:
+        - name: http-maven
+          targetPort: 8080
+        - exposure: none
+          name: debug
+          targetPort: 5858
+      volumeMounts:
+        - name: m2
+          path: /home/user/.m2
+      env:
+        - name: DEBUG_PORT
+          value: '5858'
+  - name: outerloop-build
+    image:
+      imageName: "didak-quay.apps.quay.tbtk.gov.tr/image-stream/initialzr"
+      dockerfile:
+        uri: ./Dockerfile.devfile
+        buildContext: .
+  - name: outerloop-deploy
+    kubernetes:
+      uri: kubernetes/devfile-deploy.yaml
+      endpoints:
+        - name: http-k8s
+          targetPort: 8081
+          path: /
+  - name: m2
+    volume: {}
+commands:
+  - id: mvn-package
+    exec:
+      component: app
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: 'mvn -Dmaven.repo.local=/home/user/.m2/repository package -Dmaven.test.skip=true'
+      group:
+        kind: build
+        isDefault: true
+  - id: run
+    exec:
+      component: app
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: 'java -jar target/*.jar'
+      group:
+        kind: run
+        isDefault: true
+  - id: debug
+    exec:
+      component: app
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: 'java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=${DEBUG_PORT},suspend=n -jar target/*.jar'
+      group:
+        kind: debug
+        isDefault: true
+  - id: build-image
+    apply:
+      component: outerloop-build
+  - id: deployk8s
+    apply:
+      component: outerloop-deploy
+  - id: deploy
+    composite:
+      commands:
+        - build-image
+        - deployk8s
+      group:
+        kind: deploy
+        isDefault: true
