@@ -85,7 +85,7 @@ commands:
   - id: deploy
     composite:
       commands:
-
+        - deployk8s
         - deploy-redis
       group:
         kind: deploy
