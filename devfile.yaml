@@ -85,8 +85,7 @@ commands:
   - id: deploy
     composite:
       commands:
-        - deployk8s
-        - deploy-redis
+        - build-image
       group:
         kind: deploy
         isDefault: true
