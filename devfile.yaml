@@ -87,6 +87,7 @@ commands:
       commands:
         - build-image
         - deployk8s
+        - deployk8s
       group:
         kind: deploy
         isDefault: true
