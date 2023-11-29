@@ -44,9 +44,6 @@ components:
           path: /
   - name: m2
     volume: {}
-  - name: deploy-redis
-    container:
-      image: quay.io/tkral/devbox-demo-devbox
 commands:
   - id: mvn-package
     exec:
@@ -72,10 +69,6 @@ commands:
       group:
         kind: debug
         isDefault: true
-  - id: deploy-redis
-    exec:
-      commandLine: helm repo add bitnami https://charts.bitnami.com/bitnami && helm repo update && helm upgrade --install my-redis bitnami/redis --version 18.4.0
-      component: deploy-redis
   - id: build-image
     apply:
       component: outerloop-build
@@ -86,6 +79,7 @@ commands:
     composite:
       commands:
         - build-image
+        - deployk8s
       group:
         kind: deploy
         isDefault: true
