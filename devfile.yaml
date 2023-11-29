@@ -31,9 +31,9 @@ components:
           value: '5858'
   - name: outerloop-build
     image:
-      imageName: "didak-quay.apps.quay.tbtk.gov.tr/image-stream/initialzr"
+      imageName: yte-demo-app-image:latest
       dockerfile:
-        uri: ./Dockerfile.devfile
+        uri: ./Dockerfile
         buildContext: .
   - name: outerloop-deploy
     kubernetes:

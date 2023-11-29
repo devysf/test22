@@ -1,4 +1,5 @@
 FROM eclipse-temurin:17.0.3_7-jre-alpine AS builder
+RUN mvn package -Dmaven.test.skip=true
 COPY target/yte-demo-app-0.0.1-SNAPSHOT.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
