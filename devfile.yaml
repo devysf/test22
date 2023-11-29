@@ -42,14 +42,6 @@ components:
         - name: http-k8s
           targetPort: 8081
           path: /
-  - name: redis
-    container:
-      image: redis
-      endpoints:
-        - name: redis-ep
-          targetPort: 6379
-          exposure: internal
-
   - name: m2
     volume: {}
 commands:
@@ -83,15 +75,11 @@ commands:
   - id: deployk8s
     apply:
       component: outerloop-deploy
-  - id: redis
-    apply:
-      component: redis
   - id: deploy
     composite:
       commands:
         - build-image
         - deployk8s
-        - redis
       group:
         kind: deploy
         isDefault: true

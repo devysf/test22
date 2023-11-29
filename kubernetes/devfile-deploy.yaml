@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: yte-demo-app
-          image: didak-quay.apps.quay.tbtk.gov.tr/image-stream/initialzr:latest
+          image: yte-demo-app-image:latest
           ports:
             - name: http
               containerPort: 8081
