@@ -76,23 +76,23 @@ components:
           value: '8081'
         - name: ALLOW_ANONYMOUS_LOGIN
           value: 'true'
-#  - name: kafka
-#    container:
-#      image: bitnami/kafka:3.2.3
-#      endpoints:
-#        - name: kafka-ep
-#          targetPort: 9092
-#      env:
-#        - name: KAFKA_CFG_ZOOKEEPER_CONNECT
-#          value: localhost:2181
-#        - name: KAFKA_LISTENERS
-#          value: LOCAL://:9092
-#        - name: KAFKA_ADVERTISED_LISTENERS
-#          value: LOCAL://localhost:9092
-#        - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
-#          value: LOCAL:PLAINTEXT
-#        - name: KAFKA_CFG_INTER_BROKER_LISTENER_NAME
-#          value: LOCAL
+  - name: kafka
+    container:
+      image: bitnami/kafka:3.2.3
+      endpoints:
+        - name: kafka-ep
+          targetPort: 9092
+      env:
+        - name: KAFKA_CFG_ZOOKEEPER_CONNECT
+          value: localhost:2181
+        - name: KAFKA_LISTENERS
+          value: LOCAL://:9092
+        - name: KAFKA_ADVERTISED_LISTENERS
+          value: LOCAL://localhost:9092
+        - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
+          value: LOCAL:PLAINTEXT
+        - name: KAFKA_CFG_INTER_BROKER_LISTENER_NAME
+          value: LOCAL
 #  - name: kafka-manager
 #    container:
 #      image: hlebalbau/kafka-manager:stable
