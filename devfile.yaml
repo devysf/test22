@@ -79,7 +79,7 @@ components:
           value: 'true'
   - name: kafka
     container:
-      memoryLimit: 256M
+      memoryLimit: 512M
       image: bitnami/kafka:3.2.3
       endpoints:
         - name: kafka-ep
