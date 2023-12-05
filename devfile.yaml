@@ -66,6 +66,8 @@ components:
 #          exposure: internal
   - name: zookeeper
     container:
+      memoryLimit: 128M
+      cpuLimit: 1
       image: bitnami/zookeeper:3.6
       endpoints:
         - name: zookeeper-ep
@@ -78,10 +80,8 @@ components:
           value: 'true'
   - name: kafka
     container:
-      memoryLimit: 512M
-      memoryRequest: 256M
-      cpuRequest: 100m
-      cpuLimit: 5000m
+      memoryLimit: 256M
+      cpuLimit: 2
       image: bitnami/kafka:3.2.3
       endpoints:
         - name: kafka-ep
