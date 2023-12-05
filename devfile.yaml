@@ -93,15 +93,15 @@ components:
 #          value: LOCAL:PLAINTEXT
 #        - name: KAFKA_CFG_INTER_BROKER_LISTENER_NAME
 #          value: LOCAL
-  - name: kafka-manager
-    container:
-      image: hlebalbau/kafka-manager:stable
-      endpoints:
-        - name: km-ep
-          targetPort: 9000
-      env:
-        - name: ZK_HOSTS
-          value: localhost:2181
+#  - name: kafka-manager
+#    container:
+#      image: hlebalbau/kafka-manager:stable
+#      endpoints:
+#        - name: km-ep
+#          targetPort: 9000
+#      env:
+#        - name: ZK_HOSTS
+#          value: localhost:2181
   - name: postgres-vol
     volume: {}
   - name: m2
