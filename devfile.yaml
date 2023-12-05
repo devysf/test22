@@ -57,13 +57,13 @@ components:
           value: yte-demo-app
         - name: PGDATA
           value: /tmp/pgdata
-#  - name: redis
-#    container:
-#      image: redis
-#      endpoints:
-#        - name: redis-ep
-#          targetPort: 6379
-#          exposure: internal
+  - name: redis
+    container:
+      image: redis
+      endpoints:
+        - name: redis-ep
+          targetPort: 6379
+          exposure: internal
   - name: zookeeper
     container:
       memoryLimit: 128M
@@ -95,15 +95,15 @@ components:
           value: LOCAL:PLAINTEXT
         - name: KAFKA_CFG_INTER_BROKER_LISTENER_NAME
           value: LOCAL
-#  - name: kafka-manager
-#    container:
-#      image: hlebalbau/kafka-manager:stable
-#      endpoints:
-#        - name: km-ep
-#          targetPort: 9000
-#      env:
-#        - name: ZK_HOSTS
-#          value: localhost:2181
+  - name: kafka-manager
+    container:
+      image: hlebalbau/kafka-manager:stable
+      endpoints:
+        - name: km-ep
+          targetPort: 9000
+      env:
+        - name: ZK_HOSTS
+          value: localhost:2181
   - name: postgres-vol
     volume: {}
   - name: m2
