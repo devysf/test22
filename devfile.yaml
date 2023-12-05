@@ -77,11 +77,11 @@ components:
         - name: ALLOW_ANONYMOUS_LOGIN
           value: 'true'
   - name: kafka
-    memoryLimit: 512M
-    memoryRequest: 256M
-    cpuRequest: 100m
-    cpuLimit: 5000m
     container:
+      memoryLimit: 512M
+      memoryRequest: 256M
+      cpuRequest: 100m
+      cpuLimit: 5000m
       image: bitnami/kafka:3.2.3
       endpoints:
         - name: kafka-ep
