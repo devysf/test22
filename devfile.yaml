@@ -53,11 +53,19 @@ commands:
       group:
         kind: build
         isDefault: true
-  - id: run
+  - id: run-jar-file
     exec:
       component: app
       workingDir: ${PROJECT_SOURCE}
       commandLine: 'java -jar target/*.jar'
+      group:
+        kind: run
+        isDefault: true
+  - id: run-spring-boot
+    exec:
+      component: app
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: 'mvn spring-boot:run'
       group:
         kind: run
         isDefault: true
