@@ -82,6 +82,7 @@ components:
         - name: KAFKA_CFG_INTER_BROKER_LISTENER_NAME
           value: LOCAL
   - name: kafka-manager
+    memoryLimit: 256M
     container:
       image: hlebalbau/kafka-manager:stable
       endpoints:
