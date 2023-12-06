@@ -1,4 +1,4 @@
-schemaVersion: 2.2.0
+schemaVersion: 2.1.0
 metadata:
   name: java-maven
   displayName: Maven Java
@@ -29,19 +29,6 @@ components:
       env:
         - name: DEBUG_PORT
           value: '5858'
-  - name: outerloop-build
-    image:
-      imageName: "didak-quay.apps.quay.tbtk.gov.tr/image-stream/initialzr"
-      dockerfile:
-        uri: ./Dockerfile.devfile
-        buildContext: .
-  - name: outerloop-deploy
-    kubernetes:
-      uri: kubernetes/devfile-deploy.yaml
-      endpoints:
-        - name: http-k8s
-          targetPort: 8081
-          path: /
   - name: postgres
     container:
       image: postgres:16-alpine
@@ -66,7 +53,6 @@ components:
           exposure: internal
   - name: zookeeper
     container:
-      memoryLimit: 128M
       image: bitnami/zookeeper:3.6
       endpoints:
         - name: zookeeper-ep
@@ -117,11 +103,19 @@ commands:
       group:
         kind: build
         isDefault: true
-  - id: run
+  - id: run-java-jar
     exec:
       component: app
       workingDir: ${PROJECT_SOURCE}
       commandLine: 'java -jar target/*.jar'
+      group:
+        kind: run
+        isDefault: true
+  - id: run-mvn-spring-boot-run
+    exec:
+      component: app
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: 'mvn spring-boot:run'
       group:
         kind: run
         isDefault: true
@@ -132,18 +126,4 @@ commands:
       commandLine: 'java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=${DEBUG_PORT},suspend=n -jar target/*.jar'
       group:
         kind: debug
-        isDefault: true
-  - id: build-image
-    apply:
-      component: outerloop-build
-  - id: deployk8s
-    apply:
-      component: outerloop-deploy
-  - id: deploy
-    composite:
-      commands:
-        - build-image
-        - deployk8s
-      group:
-        kind: deploy
         isDefault: true
